@@ -29,6 +29,27 @@ public class RegisterServlet extends HttpServlet {
         photographersFile.createNewFile();
         allUsersFile.createNewFile();
 
+        // === Duplicate Check ===
+        boolean exists = false;
+        BufferedReader reader = new BufferedReader(new FileReader(isPhotographer ? photographersFile : usersFile));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (isPhotographer && line.startsWith("Photographer:")) {
+                line = line.substring(13).trim();
+            }
+            String[] parts = line.split(",");
+            if (parts.length >= 3 && (parts[0].equals(username) || parts[2].equals(email))) {
+                exists = true;
+                break;
+            }
+        }
+        reader.close();
+
+        if (exists) {
+            response.sendRedirect("register.jsp?error=exists");
+            return;
+        }
+
         if (isPhotographer) {
             String entry = "Photographer: " + username + "," + password + "," + email;
 
@@ -40,7 +61,6 @@ public class RegisterServlet extends HttpServlet {
                 allWriter.newLine();
             }
 
-            System.out.println("[REGISTER] Photographer saved to: " + photographersFile.getAbsolutePath());
             response.sendRedirect("login.jsp");
 
         } else {
@@ -53,7 +73,6 @@ public class RegisterServlet extends HttpServlet {
                     allWriter.newLine();
                 }
 
-                System.out.println("[REGISTER] User saved to: " + usersFile.getAbsolutePath());
                 response.sendRedirect("login.jsp");
             } else {
                 response.sendRedirect("register.jsp?error=1");

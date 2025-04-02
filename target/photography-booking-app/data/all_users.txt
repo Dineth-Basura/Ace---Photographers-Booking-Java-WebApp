@@ -24,3 +24,4 @@ Photographer: x,x,x@gmail.com
 User: c,c,c@gmail.com
 Photographer: adi,adi,adi@gmail.com
 User: dineth,dineth,dineth@gmail.com
+User: u,u,u@gmail.com

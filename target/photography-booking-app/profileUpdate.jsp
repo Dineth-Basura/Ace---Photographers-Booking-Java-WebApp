@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.UUID" %>
-<%@ page import="java.io.File" %>
 <%
   response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   response.setHeader("Pragma", "no-cache");
@@ -12,13 +10,9 @@
     return;
   }
 
-  String relativeImagePath = "images/user_profiles/" + username + ".jpg";
-  String absoluteImagePath = application.getRealPath("/") + relativeImagePath;
-  File profileImageFile = new File(absoluteImagePath);
-  boolean hasImage = profileImageFile.exists();
-  String randomQuery = "?v=" + UUID.randomUUID().toString();
+  String error = request.getParameter("error");
+  String updated = request.getParameter("updated");
 %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,75 +21,84 @@
   <link rel="stylesheet" href="css/bootstrap.css">
   <style>
     body {
-      background-color: #f5f5f5;
-      font-family: Arial, sans-serif;
-      padding: 40px;
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', sans-serif;
     }
-
-    .profile-container {
+    .profile-box {
       max-width: 500px;
-      margin: auto;
-      background: white;
+      margin: 50px auto;
+      background: #fff;
       padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
-
+    h2 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 25px;
+    }
     .profile-pic {
       width: 120px;
       height: 120px;
-      border-radius: 50%;
-      border: 3px solid #007bff;
       object-fit: cover;
-      margin-bottom: 20px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 3px solid #007bff;
     }
-
-    .btn-update {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 10px;
+    .form-group label {
+      font-weight: 500;
     }
-
-    .btn-update:hover {
-      background-color: #0056b3;
+    .btn-primary {
+      width: 100%;
     }
-
-    label {
-      font-weight: bold;
+    .alert {
+      padding: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
 
-<div class="profile-container">
-  <h2 class="text-center mb-4">Account Settings</h2>
+<div class="profile-box">
+  <h2>Account Settings</h2>
 
-  <div class="text-center">
-    <% if (hasImage) { %>
-    <img src="<%= relativeImagePath + randomQuery %>" class="profile-pic" alt="Profile Picture">
-    <% } else { %>
-    <img src="images/user_profiles/default-profile.jpg" class="profile-pic" alt="Default Profile">
-    <% } %>
-  </div>
+  <!-- Serve image via servlet for real-time updates -->
+  <img src="userProfileImage?user=<%= username %>&ts=<%= System.currentTimeMillis() %>" class="profile-pic" alt="Profile Picture">
 
-  <form method="post" action="updateProfile" enctype="multipart/form-data">
+  <% if ("incorrectOldPassword".equals(error)) { %>
+  <div class="alert alert-danger">Incorrect old password.</div>
+  <% } else if ("mismatch".equals(error)) { %>
+  <div class="alert alert-warning">New passwords do not match.</div>
+  <% } else if ("updated".equals(updated)) { %>
+  <div class="alert alert-success">Profile updated successfully!</div>
+  <% } %>
+
+  <form action="updateProfile" method="post" enctype="multipart/form-data">
     <input type="hidden" name="username" value="<%= username %>">
 
     <div class="form-group">
+      <label>Old Password</label>
+      <input type="password" name="oldPassword" class="form-control" required>
+    </div>
+
+    <div class="form-group">
       <label>New Password</label>
-      <input type="password" name="newPassword" class="form-control" placeholder="Enter new password">
+      <input type="password" name="newPassword" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Confirm New Password</label>
+      <input type="password" name="confirmPassword" class="form-control">
     </div>
 
     <div class="form-group">
       <label>Profile Picture</label>
-      <input type="file" name="profilePic" class="form-control">
+      <input type="file" name="profilePic" class="form-control-file">
     </div>
 
-    <div class="text-center">
-      <button type="submit" class="btn btn-update">Update Profile</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
   </form>
 </div>
 
