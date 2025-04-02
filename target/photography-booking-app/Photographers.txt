@@ -1,0 +1,8 @@
+John Smith,4.9
+Emily Davis,4.8
+Michael Brown,4.7
+Sophia Wilson,4.6
+David Lee,4.5
+Olivia Harris,4.4
+Chris Evans,4.3
+Anna Johnson,4.2

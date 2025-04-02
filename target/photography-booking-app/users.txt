@@ -1,0 +1,3 @@
+john,1234,john@gmail.com
+emma,abcd,emma@yahoo.com
+mike,pass123,mike@outlook.com
