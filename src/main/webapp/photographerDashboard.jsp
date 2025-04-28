@@ -134,7 +134,7 @@
 <div class="sidebar">
     <h3><img src="images/logo-black.png" style="width: 30px; margin-right: 5px;"> Pro <span style="color: white;">Photography</span></h3>
     <a href="#">Dashboard</a>
-    <a href="#">Bookings</a>
+    <a href="photographerBookings">Bookings</a>
     <a href="#">Clients</a>
     <a href="#">Payments</a>
     <a href="photographerProfile.jsp">My Profile</a>

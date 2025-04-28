@@ -5,5 +5,5 @@ john123,password123,john@example.com
 sara456,pass456,sara@email.com
 user,user,user@gmail.com
 k,k,k@gmail.com
-dineth,dineth,dineth@gmail.com
+dineth,dineth1,dineth@gmail.com
 u,u,u@gmail.com

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.*, java.io.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,10 +31,10 @@
       public class Photographer {
         public String name;
         public String category;
-        public String image;
         public double rating;
         public String location;
         public String available;
+        public String image;
 
         public Photographer(String name, String category, double rating, String location, String available, String image) {
           this.name = name;
@@ -49,22 +49,39 @@
 
     <div class="row">
       <%
-        Photographer[] photographers = {
-                new Photographer("Emma Johnson", "Portrait & Wedding", 4.8, "New York", "Mon-Fri", "images/emma.jpg"),
-                new Photographer("James Wilson", "Landscape & Nature", 4.9, "Seattle", "Weekends", "images/james.jpg"),
-                new Photographer("Sophia Chen", "Fashion & Editorial", 4.7, "Los Angeles", "Mon-Sat", "images/sophia.jpg"),
-                new Photographer("Carlos Rivera", "Event & Street", 4.6, "Chicago", "Weekdays", "images/carlos.jpg"),
-                new Photographer("Lana Patel", "Travel & Wildlife", 4.9, "San Francisco", "Flexible", "images/lana.jpg"),
-                new Photographer("Brian Adams", "Real Estate & Drone", 4.5, "Austin", "Mon-Fri", "images/brian.jpg")
-        };
+        List<Photographer> photographers = new ArrayList<>();
+        String filePath = "D:/photoBook/photographBook/src/main/webapp/data/Photographers.txt";
+        String physicalProfilePath = "D:/photoBook/photographBook/src/main/webapp/images/profiles";
+        String webImagePath = "images/profiles";
 
-        for(Photographer p : photographers) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+          String line;
+          while ((line = br.readLine()) != null) {
+            if (line.startsWith("Photographer:")) {
+              String[] parts = line.substring(13).split(",");
+              String name = parts[0];
+              String username = parts[0];
+              String image = webImagePath + "/" + username + ".jpg";
+
+              File imgFile = new File(physicalProfilePath + "/" + username + ".jpg");
+              if (!imgFile.exists()) {
+                image = webImagePath + "/default-profile.jpg";
+              }
+
+              photographers.add(new Photographer(name, "Event & Portrait", 4.5, "Flexible", "Anyday", image));
+            }
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+
+        for (Photographer p : photographers) {
       %>
       <div class="col-md-6 col-lg-4 mb-4">
         <form method="post" action="session-details.jsp">
           <div class="photographer-card">
             <div class="d-flex align-items-center mb-2">
-              <img src="<%= p.image %>" class="photographer-img mr-3" alt="<%= p.name %>">
+              <img src="<%= p.image %>?ts=<%= System.currentTimeMillis() %>" class="photographer-img mr-3" alt="<%= p.name %>">
               <div>
                 <h5><%= p.name %></h5>
                 <span class="badge badge-info badge-category"><%= p.category %></span>

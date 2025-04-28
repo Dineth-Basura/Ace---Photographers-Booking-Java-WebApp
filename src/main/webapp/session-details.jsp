@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*" %>
 <%
     String photographer = request.getParameter("photographer");
+    if (photographer == null) photographer = "Unknown";
 %>
 <!DOCTYPE html>
 <html>
@@ -19,8 +21,18 @@
     <jsp:include page="sidebar.jsp"/>
     <div class="main-content m-4">
         <h3>Session Details for <strong><%= photographer %></strong></h3>
+
         <form method="post" action="confirm.jsp" class="form-section">
             <input type="hidden" name="photographer" value="<%= photographer %>">
+
+            <label>Select Event Type</label>
+            <select name="eventType" class="form-select" required>
+                <option value="Wedding">Wedding</option>
+                <option value="Birthday">Birthday Party</option>
+                <option value="Corporate">Corporate Event</option>
+                <option value="Graduation">Graduation</option>
+                <option value="Other">Other</option>
+            </select>
 
             <label>Select Package</label>
             <select name="package" class="form-select" required>

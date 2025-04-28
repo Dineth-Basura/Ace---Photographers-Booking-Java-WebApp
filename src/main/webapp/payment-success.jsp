@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  String photographer = request.getParameter("photographer");
-  String selectedPackage = request.getParameter("package");
-  String sessionDate = request.getParameter("date");
-  String price = request.getParameter("price");
+  String photographer = (String) request.getAttribute("photographer");
+  String selectedPackage = (String) request.getAttribute("package");
+  String sessionDate = (String) request.getAttribute("date");
+  String price = (String) request.getAttribute("price");
+  String eventType = (String) request.getAttribute("eventType");
 %>
 <!DOCTYPE html>
 <html>
@@ -29,6 +30,7 @@
   <p class="text-success">Thank you for booking with Ace.</p>
   <hr>
   <p><strong>Photographer:</strong> <%= photographer %></p>
+  <p><strong>Event Type:</strong> <%= eventType %></p>
   <p><strong>Package:</strong> <%= selectedPackage %></p>
   <p><strong>Session Date:</strong> <%= sessionDate %></p>
   <p><strong>Total Paid:</strong> $<%= price %></p>

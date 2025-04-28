@@ -16,7 +16,7 @@
       <a class="nav-link text-white" href="categories.jsp">Categories</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link text-white" href="bookedPhotographers.jsp">Booked Photographers</a>
+      <a class="nav-link text-white" href="bookedPhotographers">Booked Photographers</a>
     </li>
     <li class="nav-item">
       <a class="nav-link text-danger" href="logout.jsp">Logout</a>

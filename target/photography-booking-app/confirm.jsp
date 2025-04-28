@@ -3,6 +3,7 @@
     String photographer = request.getParameter("photographer");
     String sessionDate = request.getParameter("date");
     String selectedPackage = request.getParameter("package");
+    String eventType = request.getParameter("eventType");
     String notes = request.getParameter("notes");
 
     String price = "100";
@@ -25,15 +26,18 @@
 <div class="main-content mt-4">
     <h4>Confirm Your Booking</h4>
     <p><strong>Photographer:</strong> <%= photographer %></p>
+    <p><strong>Event Type:</strong> <%= eventType %></p>
     <p><strong>Package:</strong> <%= selectedPackage %></p>
     <p><strong>Date:</strong> <%= sessionDate %></p>
     <p><strong>Total:</strong> $<%= price %></p>
 
-    <form action="payment-success.jsp" method="post" class="card-input mt-4">
+    <form action="paymentSuccess" method="post" class="card-input mt-4">
         <input type="hidden" name="photographer" value="<%= photographer %>">
         <input type="hidden" name="package" value="<%= selectedPackage %>">
         <input type="hidden" name="date" value="<%= sessionDate %>">
         <input type="hidden" name="price" value="<%= price %>">
+        <input type="hidden" name="eventType" value="<%= eventType %>">
+        <input type="hidden" name="notes" value="<%= notes %>">
 
         <label>Cardholder Name</label>
         <input type="text" name="cardName" class="form-control" placeholder="John Doe" required>
