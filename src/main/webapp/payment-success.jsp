@@ -36,6 +36,8 @@
   <p><strong>Total Paid:</strong> $<%= price %></p>
   <hr>
   <a href="dashboard.jsp" class="btn btn-outline-primary mt-3">Back to Dashboard</a>
+  <!-- Add this below the "Back to Dashboard" button -->
+  <a href="paymentHistory" class="btn btn-primary mt-3 ml-2">View Payment History</a>
 </div>
 </body>
 </html>

@@ -19,6 +19,11 @@
       <a class="nav-link text-white" href="bookedPhotographers">Booked Photographers</a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" href="paymentHistory">
+        <i class="fas fa-history"></i> Payment History
+      </a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link text-danger" href="logout.jsp">Logout</a>
     </li>
   </ul>

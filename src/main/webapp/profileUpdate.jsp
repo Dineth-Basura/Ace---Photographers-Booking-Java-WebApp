@@ -49,7 +49,7 @@
     .form-group label {
       font-weight: 500;
     }
-    .btn-primary {
+    .btn-primary, .btn-danger {
       width: 100%;
     }
     .alert {
@@ -100,6 +100,12 @@
 
     <button type="submit" class="btn btn-primary">Update Profile</button>
   </form>
+
+  <!-- Redirect to Confirm Deletion Page -->
+  <form action="confirmDelete.jsp" method="get">
+    <button type="submit" class="btn btn-danger mt-3">Delete My Account</button>
+  </form>
+
 </div>
 
 </body>

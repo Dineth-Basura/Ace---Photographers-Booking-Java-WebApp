@@ -71,8 +71,8 @@
     <a href="#">Dashboard</a>
     <a href="adminUsers.jsp">Users</a>
     <a href="adminPhotographers.jsp">Photographers</a>
-    <a href="#">Bookings</a>
-    <a href="#">Payments</a>
+    <a href="adminBookings.jsp">Bookings</a>
+    <a href="adminPayments.jsp">Payments</a>
     <a href="#">Reports</a>
     <a href="#">Settings</a>
     <a href="logout.jsp" style="color: #dc3545;">Logout</a>

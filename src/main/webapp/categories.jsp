@@ -1,49 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%!
-    public class Photog {
-        private String name;
-        private String category;
-        private int rating;
-        private String image; // New: image file name
-
-        public Photog(String n, String c, int r, String img) {
-            name = n;
-            category = c;
-            rating = r;
-            image = img;
-        }
-
-        public String getName() { return name; }
-        public String getCategory() { return category; }
-        public int getRating() { return rating; }
-        public String getImage() { return image; }
-    }
-%>
+<%@ page import="com.example.services.PhotographerService" %>
+<%@ page import="com.example.models.PhotographerRating" %>
+<%@ page import="java.io.IOException" %>
+<%@ page import="java.util.List" %>
 
 <%
-    Photog[] photographers = {
-            new Photog("Emma Johnson", "Portraits", 5, "emma.jpg"),
-            new Photog("Marcus Brown", "Events", 4, "marcus.jpg"),
-            new Photog("Sophia Chen", "Fashion", 3, "sophia.jpg"),
-            new Photog("Carlos Rivera", "Street", 2, "carlos.jpg"),
-            new Photog("Lana Patel", "Wildlife", 5, "lana.jpg"),
-            new Photog("Brian Adams", "Real Estate", 4, "brian.jpg")
-    };
+    // Initialize service with absolute paths
+    String basePath = "D:/photoBook/photographBook/src/main/webapp/data/";
+    PhotographerService photographerService = new PhotographerService(
+            basePath + "photographers.txt",
+            basePath + "photographer_ratings.txt"
+    );
 
-    // Bubble sort by rating (descending)
-    for (int i = 0; i < photographers.length - 1; i++) {
-        for (int j = 0; j < photographers.length - i - 1; j++) {
-            if (photographers[j].getRating() < photographers[j + 1].getRating()) {
-                Photog temp = photographers[j];
-                photographers[j] = photographers[j + 1];
-                photographers[j + 1] = temp;
-            }
-        }
+    try {
+        // Get sorted photographers with ratings
+        List<PhotographerRating> photographerRatings = photographerService.getSortedPhotographerRatings();
+        request.setAttribute("photographerRatings", photographerRatings);
+    } catch (IOException e) {
+        e.printStackTrace();
+        request.setAttribute("error", "Error loading photographer ratings: " + e.getMessage());
     }
-
-    request.setAttribute("photographers", java.util.Arrays.asList(photographers));
 %>
 
 <!DOCTYPE html>
@@ -81,6 +58,9 @@
             border-radius: 50%;
             margin-bottom: 10px;
         }
+        .btn-delete {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -88,13 +68,29 @@
     <jsp:include page="sidebar.jsp"/>
     <div class="main-content">
         <h3>Top Rated Photographers (Sorted by Rating)</h3>
+
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
         <div class="row">
-            <c:forEach var="photog" items="${photographers}">
+            <c:forEach var="photog" items="${photographerRatings}">
                 <div class="col-md-4">
                     <div class="photographer-card">
-                        <img src="images/${photog.image}" alt="${photog.name}">
+                        <%
+                            // Generate image filename from photographer name
+                            String imgName = ((PhotographerRating)pageContext.getAttribute("photog")).getName()
+                                    .toLowerCase().replace(" ", "-") + ".jpg";
+                            String imgPath = "images/profiles/" + imgName;
+                            String defaultImg = "images/profiles/default-profile.jpg";
+
+                            // Check if image exists
+                            String imgToUse = new java.io.File(
+                                    "D:/photoBook/photographBook/src/main/webapp/" + imgPath).exists()
+                                    ? imgPath : defaultImg;
+                        %>
+                        <img src="<%= imgToUse %>" alt="${photog.name}">
                         <h5>${photog.name}</h5>
-                        <p>${photog.category}</p>
                         <div>
                             <c:forEach begin="1" end="5" var="i">
                                 <c:choose>
@@ -102,8 +98,9 @@
                                     <c:otherwise>☆</c:otherwise>
                                 </c:choose>
                             </c:forEach>
+                            (${photog.rating})
                         </div>
-                        <form method="post" action="rating.jsp">
+                        <form method="post" action="submitRating.jsp">
                             <input type="hidden" name="photographer" value="${photog.name}">
                             <div class="rating-stars d-flex justify-content-center my-2">
                                 <input type="radio" id="${photog.name}-star5" name="rating" value="5" required>
@@ -118,6 +115,12 @@
                                 <label for="${photog.name}-star1">★</label>
                             </div>
                             <button class="btn btn-sm btn-outline-primary">Submit Rating</button>
+                        </form>
+
+                        <!-- Delete Rating Button -->
+                        <form method="post" action="DeleteRatingServlet" class="mt-2">
+                            <input type="hidden" name="photographer" value="${photog.name}">
+                            <button class="btn btn-sm btn-outline-danger btn-delete">Delete Rating</button>
                         </form>
                     </div>
                 </div>
