@@ -1,0 +1,7 @@
+john,1234,john@gmail.com
+emma,abcd,emma@yahoo.com
+mike,pass123,mike@outlook.com
+john123,password123,john@example.com
+dineth,dineth1,dineth@gmail.com
+u,u,u@gmail.com
+io,i,i@gmail.com

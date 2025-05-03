@@ -1,0 +1,4 @@
+Photographer Name 1,4.5
+Photographer Name 2,3.0
+Photographer Name 3,5.0
+adi,0.0
