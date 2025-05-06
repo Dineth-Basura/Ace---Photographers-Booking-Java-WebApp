@@ -19,7 +19,7 @@ public class DeletePaymentServlet extends HttpServlet {
         }
 
         String timestamp = request.getParameter("timestamp");
-
+//example
         try {
             PaymentService paymentService = new PaymentService(
                     "D:/photoBook/photographBook/src/main/webapp/data/payments.txt"
