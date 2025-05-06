@@ -35,6 +35,6 @@ public class DeletePaymentServlet extends HttpServlet {
             session.setAttribute("error", "Error deleting payment: " + e.getMessage());
         }
 
-        response.sendRedirect("paymentHistory");
+        response.sendRedirect("paymentHistory");   //test
     }
 }

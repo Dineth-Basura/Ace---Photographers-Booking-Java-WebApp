@@ -9,7 +9,7 @@
 <jsp:include page="sidebar.jsp" />
 <div class="container p-5">
     <h3>Add Photographer</h3>
-    <form method="post" action="photographer">
+    <form method="post" action="photographer.jsp">
         <div class="form-group">
             <label for="name">Photographer Name</label>
             <input type="text" name="name" class="form-control" required>
